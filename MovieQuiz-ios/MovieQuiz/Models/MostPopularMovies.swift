@@ -29,7 +29,7 @@ struct MostPopularMovie: Codable {
     
     private enum CodingKeys: String, CodingKey {
         case title = "fullTitle"
-        case rating = "imDbRaiting"
+        case rating = "imDbRatingCount"
         case imageURL = "image"
     }
 }

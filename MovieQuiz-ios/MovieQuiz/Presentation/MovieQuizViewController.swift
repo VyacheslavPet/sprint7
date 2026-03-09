@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     // MARK: - IBOutlets
     
@@ -11,7 +11,7 @@ final class MovieQuizViewController: UIViewController {
 
     // MARK: - Properties
     
-    private var presenter = MovieQuizPresenter!
+    private var presenter: MovieQuizPresenter!
     
     // MARK: - Lifecycle
     
