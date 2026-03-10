@@ -8,7 +8,7 @@
 import UIKit
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
-    private let statisticService: StatisticServiceProtocol!
+    private let statisticService: StatisticServiceProtocol
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
 
@@ -41,18 +41,16 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
 
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-            return
-        }
+        guard let question else { return }
 
         currentQuestion = question
         let viewModel = convert(model: question)
-        DispatchQueue.main.async { [weak self] in
-            self?.viewController?.show(quiz: viewModel)
+        DispatchQueue.main.async {
+            self.viewController?.show(quiz: viewModel)
         }
     }
 
-    func isLastQuestion() -> Bool {
+    var isLastQuestion: Bool {
         currentQuestionIndex == questionsAmount - 1
     }
 
@@ -80,12 +78,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         )
     }
 
-    func yesButtonClicked() {
-        didAnswer(isYes: true)
-    }
-
-    func noButtonClicked() {
-        didAnswer(isYes: false)
+    func answerButtonClicked(isYes: Bool) {
+        didAnswer(isYes: isYes)
     }
 
     private func didAnswer(isYes: Bool) {
@@ -110,7 +104,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
 
     private func proceedToNextQuestionOrResults() {
-        if self.isLastQuestion() {
+        if self.isLastQuestion {
             let text = correctAnswers == self.questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10!" :
             "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"

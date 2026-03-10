@@ -27,6 +27,7 @@
 		C569C9452EF3E74C0072E91B /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C569C9442EF3E7420072E91B /* AlertModel.swift */; };
 		C569C9472EF3E7D20072E91B /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C569C9462EF3E7BD0072E91B /* AlertPresenter.swift */; };
 		C59115EB2F5EE1A400156811 /* MovieQuizViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59115EA2F5EE1A200156811 /* MovieQuizViewControllerProtocol.swift */; };
+		C591161C2F60589A00156811 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C591161B2F60589A00156811 /* Logging */; };
 		C59816842EF98DEF00F47CC3 /* StatisticServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59816832EF98DE600F47CC3 /* StatisticServiceProtocol.swift */; };
 		C59816882EF98F3100F47CC3 /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59816872EF98F2600F47CC3 /* GameResult.swift */; };
 		C598168A2EF990A600F47CC3 /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59816892EF9908B00F47CC3 /* StatisticService.swift */; };
@@ -107,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C591161C2F60589A00156811 /* Logging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +186,7 @@
 				AD1ABAB02831907B00B3E448 /* MovieQuiz */,
 				C54EC8582F32E84C00225A84 /* MovieQuizTests1 */,
 				C54041032F397CC400528F67 /* MovieQuizUITests */,
+				C591161A2F60589A00156811 /* Frameworks */,
 				AD1ABAAF2831907B00B3E448 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -220,6 +223,13 @@
 				AD77F5732857F8810062FB14 /* Date+Extensions.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C591161A2F60589A00156811 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +333,7 @@
 			mainGroup = AD1ABAA52831907B00B3E448;
 			packageReferences = (
 				C59115F72F5EE51C00156811 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				C59116112F604ED500156811 /* XCLocalSwiftPackageReference "../swift-log" */,
 			);
 			productRefGroup = AD1ABAAF2831907B00B3E448 /* Products */;
 			projectDirPath = "";
@@ -631,7 +642,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.MovieQuizUITests1;
@@ -655,7 +666,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.MovieQuizUITests1;
@@ -679,7 +690,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.MovieQuizTests1;
@@ -704,7 +715,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.MovieQuizTests1;
@@ -760,6 +771,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		C59116112F604ED500156811 /* XCLocalSwiftPackageReference "../swift-log" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../swift-log";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		C59115F72F5EE51C00156811 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -770,6 +788,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C591161B2F60589A00156811 /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C59116112F604ED500156811 /* XCLocalSwiftPackageReference "../swift-log" */;
+			productName = Logging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD1ABAA62831907B00B3E448 /* Project object */;
 }

@@ -6,8 +6,9 @@
 //
 import UIKit
 import Foundation
+import Logging
 
-class QuestionFactory: QuestionFactoryProtocol {
+final class QuestionFactory: QuestionFactoryProtocol {
     
     private let moviesLoader: MoviesLoading
     weak var delegate: QuestionFactoryDelegate?
@@ -16,6 +17,8 @@ class QuestionFactory: QuestionFactoryProtocol {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
     }
+
+    let logger = Logger(label: "com.example.YourApp")
     
     private var movies: [MostPopularMovie] = []
     private var usedQuestionIndices: Set<Int> = []
@@ -62,7 +65,7 @@ class QuestionFactory: QuestionFactoryProtocol {
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
-                print("Failed to load image")
+                logger.error("Failed to load image", metadata: ["error": "\(error)"])
             }
             
             do {
