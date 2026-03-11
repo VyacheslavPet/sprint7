@@ -6,24 +6,22 @@
 //
 import UIKit
 import Foundation
+import Logging
 
-class QuestionFactory: QuestionFactoryProtocol {
+final class QuestionFactory: QuestionFactoryProtocol {
     
     private let moviesLoader: MoviesLoading
-    private weak var delegate: QuestionFactoryDelegate?
+    weak var delegate: QuestionFactoryDelegate?
     
     init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
     }
+
+    let logger = Logger(label: "com.example.YourApp")
     
     private var movies: [MostPopularMovie] = []
     private var usedQuestionIndices: Set<Int> = []
-    
-    
-    func setup(delegate: QuestionFactoryDelegate) {
-        self.delegate = delegate
-    }
     
     func loadData() {
         moviesLoader.loadMovies { [weak self] result in
@@ -41,24 +39,46 @@ class QuestionFactory: QuestionFactoryProtocol {
     }
     
     func requestNextQuestion() {
-        guard !movies.isEmpty else {
-            delegate?.didReceiveNextQuestion(question: nil)
-            return
-        }
-
         DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
+            guard let self = self else { return }
 
-            let index = Int.random(in: 0..<self.movies.count)
-            let movie = self.movies[index]
-
-            guard let imageData = try? Data(contentsOf: movie.imageURL) else {
-                DispatchQueue.main.async {
-                    self.delegate?.didReceiveNextQuestion(question: nil)
+            guard !self.movies.isEmpty else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.didReceiveNextQuestion(question: nil)
                 }
                 return
             }
 
+            let index = (0..<self.movies.count).randomElement() ?? 0
+
+            guard index >= 0 && index < self.movies.count else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.didReceiveNextQuestion(question: nil)
+                }
+                return
+            }
+
+            let movie = self.movies[index]
+
+            var imageData = Data()
+            
+            do {
+                imageData = try Data(contentsOf: movie.resizedImageURL)
+            } catch {
+                logger.error("Failed to load image", metadata: ["error": "\(error)"])
+            }
+            
+            do {
+                imageData = try Data(contentsOf: movie.imageURL)
+            } catch {
+                // Можно передать nil вопрос, чтобы UI показал ошибку/ретрай
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.didReceiveNextQuestion(question: nil)
+                }
+                return
+            }
+
+            // Генерация разного вопроса под конкретный фильм
             let (text, correctAnswer) = self.makeQuestion(for: movie)
 
             let question = QuizQuestion(
@@ -67,14 +87,10 @@ class QuestionFactory: QuestionFactoryProtocol {
                 correctAnswer: correctAnswer
             )
 
-            DispatchQueue.main.async {
-                self.delegate?.didReceiveNextQuestion(question: question)
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didReceiveNextQuestion(question: question)
             }
         }
-    }
-    
-    func reset() {
-        usedQuestionIndices.removeAll()
     }
 }
 
@@ -90,7 +106,7 @@ private extension QuestionFactory {
         let type = QuestionType.allCases.randomElement() ?? .ratingMoreThan7
         
         let ratingValue = Float(movie.rating) ?? 0
-        let title = movie.title
+        _ = movie.title
         
         switch type {
         case .ratingMoreThan7:

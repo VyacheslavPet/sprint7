@@ -8,6 +8,16 @@ import Foundation
 
 final class StatisticService: StatisticServiceProtocol {
     private let storage: UserDefaults = .standard
+    
+    private enum Keys: String {
+        case gamesCount
+        case bestGameCorrect
+        case bestGametotal
+        case bestGameDate
+        case totalCorrectAnswers
+        case totalQuestionsAsked
+    }
+    
     var gamesCount: Int {
         get {
             storage.integer(forKey: Keys.gamesCount.rawValue)
@@ -52,14 +62,5 @@ final class StatisticService: StatisticServiceProtocol {
         
         storage.set(currentTotalCorrect + count, forKey: Keys.totalCorrectAnswers.rawValue)
         storage.set(currentTotalQuestions + amount, forKey: Keys.totalQuestionsAsked.rawValue)
-    }
-    
-    private enum Keys: String {
-        case gamesCount
-        case bestGameCorrect
-        case bestGametotal
-        case bestGameDate
-        case totalCorrectAnswers
-        case totalQuestionsAsked
     }
 }
